@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&family=Rubik+Dirt&display=swap');
 @font-face {
     font-family: 'Vikram';
-    src: url('Vikram.ttf'), url('Vikram.ttf') format('truetype'), url('fonts/EntezareZohoor2.svg') format('svg');
+    src: url('VikramPosterFont-Regular.otf'), url('VikramPosterFont-Regular.otf') format('truetype'), url('fonts/EntezareZohoor2.svg') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -95,6 +95,9 @@ overflow: hidden;
   }
   .agent {
     position: relative;
+
+    height: 100vh;
+overflow: hidden;
 }
 
 .agent::before {
@@ -125,15 +128,88 @@ overflow: hidden;
     top: 12%;
     left:20%
 }
+.vk{
+  position: absolute;
+  top: 12%;
+  left:10%
+}
 .ghost{
     font-family: 'reg';
 }
 
-  
+  .sec3{
+    height: 100vh;
+    position: relative;
+    background-color: rgb(25, 24, 24);
+  }
 
 .zoomed {
     transform: scale(1.2);
-}  
+} 
+
+.imgcontainer{
+  top: 20%; 
+  position: relative;
+  height: 300px;
+  border-radius: 20px;
+  width:400px;
+  margin-left: 140px;
+  margin-top: 40px;
+  background:url("images/bg.jpg");
+  background-size: cover;
+}
+.image2 {
+  float: right;
+  width: 50%; /* Adjust the width of the image */
+  box-sizing: border-box;
+}
+.text2 {
+  float: left;
+  width: 50%; /* Adjust the width of the text */
+  box-sizing: border-box;
+  font-family: marvel;
+ padding: 20px;
+
+  color: white; 
+  /* Add padding for better readability */
+}
+.vjbg3{
+  position: absolute;
+  top:-47%;
+  left: 0;
+ 
+  height: 400px;
+  width:200px;
+  
+}
+.text2 h1{
+    
+  font-size: 40px;
+  font-family: 'Roboto Slab', serif;
+  margin-bottom: 20px;
+  height: 45px;
+  /* Add padding for better readability */
+}
+.text2 p{
+
+  font-size: 20px;
+  font-family: 'Roboto Slab', serif;
+  margin: 0px;
+  margin-top: 40px;
+  
+
+  /* Add padding for better readability */
+}
+.text2 #what{
+  font-family: 'Roboto Slab', serif;
+  color: #ceaa4b; 
+  font-size: 50px;
+  font-weight: bolder;
+  white-space: nowrap;
+
+}
+
+
 /*Mobile Phones*/    
 @media (max-width: 767px){
 
@@ -148,13 +224,37 @@ overflow: hidden;
     float: none !important;
     width: 100% !important;
 }
+.text2{
+  float: none !important;
+  width: 100% !important;
+  overflow: auto;
+}
+.text2 h1{
+    
+  font-size: 30px !important;
+ 
+  /* Add padding for better readability */
+}
+.imgcontainer{
+ margin-left: 0px;
+ margin-top: 350px;
+}
+.image2{
+overflow: auto;
+  float: none !important;
+  width: 100% !important;
+  margin: 0px;
+}
 section {
     position: relative;
     height: 900px;;
 
   }
+  .sec3{
+    height: 1100px;
+  }
   .content{
-    width: 100%;
+    width: 90%;
   }
   video{
     display: none;
@@ -163,6 +263,12 @@ section {
     top: 8%;
     left: -50%;
     
+} 
+.vk {
+  top: 2%;
+  left: -80%;
+  
+  
 } 
 .agentfont{
     font-family: 'vikram';
@@ -192,5 +298,31 @@ section {
         float: none !important;
         width: 100% !important;
     }
-   
+    .text2{
+      float: none !important;
+      width: 100% !important;
+      overflow: auto;
+    }
+    
+    .imgcontainer{
+     margin-left: 0px;
+     margin-top: 350px;
+    }
+    .image2{
+    overflow: auto;
+      float: none !important;
+      width: 100% !important;
+      margin: 0px;
+    }
+    section {
+        position: relative;
+        height: 900px;;
+    
+      }
+      .sec3{
+        height: 1100px;
+      }
+      .content{
+        width: 90%;
+      } 
 }

@@ -8,9 +8,9 @@
 </head>
 <body>
 
-  <section>
+  <section class="main">
     <video autoplay muted loop>
-      <source src="leo.mp4" type="video/mp4">
+      <source src="leo2.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
 
@@ -35,6 +35,30 @@
     </div>
   </section>
 
+  <section class="sec3">
+    
+    <div class="content">
+      <div class="image2">
+      <div class="imgcontainer">
+        <img class="vjbg3" src="images/vjbg3_1.png" alt="">
+
+      </div></div>
+      <div class="text2">
+        <h1 id="what"> Who is Parthiban?</h1>
+        <p>Parthiban "Parthi" is an animal rescuer and a café owner in Theog, Himachal Pradesh living with his wife, Sathya, son Siddharth "Siddhu" and daughter Mathi "Chintu". One day, Parthi's friend, Joshy Andrews, a forest ranger, calls him to help tame a spotted hyena threatening the townsfolk.</p>
+      </div>
+    </div>
+  </section>
+  <section class="agent">
+    <div class="agent-section">
+      <h1 class="agentfont" id="zoomHeader">AGENT VIKRAM</h1>
+     <img class="vk" src="images/vk.png" alt="">
+        
+      </div>
+    
+    </div>
+  </section>
+
   <section></section>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -51,6 +75,45 @@
     });
 });
 
+const words = ["Who is Parthiban?", "Who is Leo?"];
+let currentIndex = 0;
+
+function typeAndErase() {
+  const typingElement = document.getElementById("what");
+  const currentWord = words[currentIndex];
+
+  typingElement.textContent = "";
+  typingElement.classList.remove("erasing");
+  typingElement.classList.add("typing");
+
+  let charIndex = 0;
+  const typingInterval = setInterval(() => {
+    if (charIndex <= currentWord.length) {
+      typingElement.textContent = currentWord.slice(0, charIndex);
+      charIndex++;
+    } else {
+      clearInterval(typingInterval);
+      setTimeout(() => {
+        typingElement.classList.remove("typing");
+        typingElement.classList.add("erasing");
+
+        const erasingInterval = setInterval(() => {
+          if (charIndex >= 0) {
+            typingElement.textContent = currentWord.slice(0, charIndex);
+            charIndex--;
+          } else {
+            clearInterval(erasingInterval);
+            currentIndex = (currentIndex + 1) % words.length;
+            setTimeout(() => typeAndErase(), 1000); // Wait for 1 second before starting the next cycle
+          }
+        }, 50);
+      }, 1000); // Wait for 1 second after typing before starting erasing
+    }
+  }, 50);
+}
+
+// Start the typing and erasing loop
+typeAndErase();
 </script>
 </body>
 </html>
