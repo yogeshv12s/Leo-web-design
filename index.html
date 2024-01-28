@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Background and Image-Text Layout</title>
+ <link rel="stylesheet" type="text/css" href="leo.css">
+</head>
+<body>
+
+  <section>
+    <video autoplay muted loop>
+      <source src="leo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="content">
+      <div class="image">
+        <img src="images/leo.png" alt="Image Description">
+      </div>
+      <div class="text">
+        <h1 class="what">What If</h1><h1 class="web"> LEO Had Website?</h1>
+        <p>Leo (also marketed as Leo: Bloody Sweet) is a 2023 Indian Tamil-language action thriller film[8] directed by Lokesh Kanagaraj and produced by Seven Screen Studio. The film stars Vijay in the titular role, alongside Sanjay Dutt, Arjun Sarja, Trisha, Gautham Vasudev Menon, Mysskin, Madonna Sebastian, George Maryan, Mansoor Ali Khan, Priya Anand and Mathew Thomas.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="agent">
+    <div class="agent-section">
+      <h1 class="agentfont" id="zoomHeader">AGENT LEO DASS</h1>
+     <img class="vjbg" src="images/vjbg2.png" alt="">
+        
+      </div>
+    
+    </div>
+  </section>
+
+  <section></section>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var header = document.getElementById("zoomHeader");
+
+    window.addEventListener("scroll", function () {
+        var scrollPos = window.scrollY;
+
+        if (scrollPos > 100) {
+            header.classList.add("zoomed");
+        } else {
+            header.classList.remove("zoomed");
+        }
+    });
+});
+
+</script>
+</body>
+</html>
