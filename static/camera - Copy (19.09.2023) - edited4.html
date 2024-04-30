@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Image Capture</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Scanner</title>
+    <!-- Include the Dynamsoft DBR library -->
+    <script src="https://cdn.jsdelivr.net/npm/dynamsoft-javascript-barcode/dist/dbr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.js"></script>
+
+    <style>
+        /* Common styles for all screen sizes */
+        #content {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+    /* CSS for left and right divs */
+    #leftSide {
+            flex: 1;
+            padding-right: 20px;
+            background-color: #fff;
+            padding: 20px;
+            padding-right: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+    
+        #rightSide {
+            flex: 1;
+            display: flex;
+            height: 609px;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            margin-left: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+    
+
+/* CSS to create a flex container for the left and right divs */
+#container {
+    display: flex;
+}
+
+
+    
+        #leftSide h2, #rightSide h2 {
+            margin-top: 0;
+        }
+    
+        #leftSide label {
+            font-weight: bold;
+        }
+    
+        #leftSide input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    
+        #leftSide button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    
+        #leftSide button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    
+        #rightSide video {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+        }
+    
+        #capturedImage {
+            max-width: 100%;
+            height: auto;
+            display: none;
+            margin-top: 10px;
+        }
+    
+        #captureButton {
+            margin-top: 10px;
+        }
+    canvas{
+        height: 300px;
+    }
+   .barcode-table {
+  width: 50%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.barcode-table th, .barcode-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.barcode-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  text-align: center;
+}
+
+.barcode-table th:first-child,
+.barcode-table td:first-child {
+  border-left: none;
+}
+
+.barcode-table th:last-child,
+.barcode-table td:last-child {
+  border-right: none;
+}
+
+
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            body {
+                display: block !important;
+            }
+    
+            #leftSide {
+                width: 100%;
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+    
+            #rightSide {
+                width: 100%;
+            }
+    
+            #rightSide video, #capturedImage {
+                width: 100%;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="content">
+    <div id="leftSide">
+        <h2>Form Fields</h2>
+        <label for="unitName">Unit Name:</label>
+        <input type="text" id="unitName" placeholder="Enter unit name">
+
+        <label for="unitNo">Unit No:</label>
+        <input type="text" id="unitNo" placeholder="Enter unit number">
+
+        <label for="employeeCode">Employee Code:</label>
+        <input type="text" id="datamatrixResult" name="datamatrixResult" readonly>
+
+        <label for="date">Date:</label>
+        <input type="date" id="dateField">
+        <label for="line">Line:</label>
+        <input type="text" id="line" placeholder="Enter line">
+
+        <label for="hour">Hour:</label>
+        <input type="text" id="hour" placeholder="Enter hour">
+
+        <label for="numberOfCodes">Number of Codes:</label>
+        <input type="text" id="barcodeCount" placeholder="Number of Barcodes" readonly>
+
+
+
+        <button id="startButton">Start Camera</button>
+        <button id="captureButton" disabled>Capture</button>
+        <input id="ipt-file" type="file" accept="image/png,image/jpeg,image/bmp,image/gif,application/pdf" disabled="disabled">
+    
+   
+        
+    </div>
+    <div id="rightSide">
+        <input id="ipt-readonly-last-result" title="Double click to clear!" readonly placeholder="The Last Read Barcode">
+        <p id='p-loading'>Loading...</p>
+        <p id='p-reading' style='font-size:1.5em;display:none;'>Reading Barcodes...</p>
+        <div id="cameraAndImageContainer">
+            <video id="cameraFeed" style="display:none;"></video>
+            <img id="selectedimage" style="display: none;">
+        </div>
+        <div id="div-cvs-container" ></div>
+        <p>All Results:</p>
+        <div id="div-results"></div>
+    </div></div>
+    <h1 style="text-align: center;">Barcode Results</h1>
+    <div id="barcodeResuls" class="barcode-grid">
+        <!-- Results will be added here -->
+      </div>
+      
+      <table class="barcode-table">
+        <thead>
+          <tr>
+            <th>Barcode</th>
+          </tr>
+        </thead>
+        <tbody id="barcodeResults">
+          <!-- Results will be added here -->
+        </tbody>
+      </table>
+      
+       
+      
+    <script>
+  
+  Dynamsoft.DBR.BarcodeScanner.license = 'DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAyMjI2ODAxLVRYbFhaV0pRY205cVgyUmljZyIsIm1haW5TZXJ2ZXJVUkwiOiJodHRwczovL21kbHMuZHluYW1zb2Z0b25saW5lLmNvbS8iLCJvcmdhbml6YXRpb25JRCI6IjEwMjIyNjgwMSIsInN0YW5kYnlTZXJ2ZXJVUkwiOiJodHRwczovL3NkbHMuZHluYW1zb2Z0b25saW5lLmNvbS8iLCJjaGVja0NvZGUiOi0xOTg2MTQ4MjMxfQ';
+
+// Load the library on page load to speed things up.
+(async () => {
+    try {
+        await Dynamsoft.DBR.BarcodeReader.loadWasm();
+        document.getElementById('p-loading').innerText = "Library loaded and ready!"
+        document.getElementById('ipt-file').disabled = false;
+        setTimeout(function() {
+            document.getElementById('p-loading').style.display = 'none';
+        }, 1000);
+    } catch (ex) {
+        document.getElementById('p-loading').innerText = ex;
+        document.getElementById('ipt-file').disabled = true;
+        let errMsg;
+        if (ex.message.includes("network connection error")) {
+            errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+            errMsg = ex.message || ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
+    }
+})();
+// html elements
+const iptFile = document.getElementById('ipt-file');
+const iptReadonlyLastResult = document.getElementById('ipt-readonly-last-result');
+const pReading = document.getElementById('p-reading');
+const divResults = document.getElementById('barcodeResults');
+const divCvsContainer = document.getElementById('div-cvs-container');
+const startButton = document.getElementById('startButton');
+const captureButton = document.getElementById('captureButton');
+const cameraFeed = document.getElementById('cameraFeed');
+const capturedImage = document.getElementById('selectedimage')
+const capturedCanvas = document.getElementById('capturedCanvas');
+let stream;
+startButton.addEventListener('click', async () => {
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        cameraFeed.style.display = 'block';
+        captureButton.disabled = false;
+        startButton.disabled = true;
+        cameraFeed.srcObject = stream;
+        await cameraFeed.play();
+        // Clear previously captured image
+        capturedImage.style.display = 'none';
+        capturedImage.src = '';
+    } catch (error) {
+        console.error('Error accessing the camera:', error);
+    }
+});
+
+captureButton.addEventListener('click', () => {
+    const context = capturedCanvas.getContext('2d');
+    capturedCanvas.width = cameraFeed.videoWidth;
+    capturedCanvas.height = cameraFeed.videoHeight;
+    context.drawImage(cameraFeed, 0, 0, capturedCanvas.width, capturedCanvas.height);
+
+    // Convert canvas to an image and display it
+    capturedImage.src = capturedCanvas.toDataURL('image/png');
+    capturedImage.style.display = 'block';
+
+    // Stop the camera stream
+    const tracks = stream.getTracks();
+    tracks.forEach(track => track.stop());
+    cameraFeed.style.display = 'none';
+    startButton.disabled = false;
+    captureButton.disabled = true;
+});
+
+
+async function readBarcodesFromImage(imageElement) {
+    pReading.style.display = '';
+    try {
+        const reader = await (pReader = pReader || Dynamsoft.DBR.BarcodeReader.createInstance());
+        reader.ifSaveOriginalImageInACanvas = true;
+        const results = await reader.decode(imageElement);
+
+        // Clear previous results
+        divResults.innerHTML = '';
+
+        // Show image
+        divCvsContainer.innerHTML = '';
+        divCvsContainer.appendChild(reader.getOriginalImageInACanvas());
+
+// Display barcode results
+if (results.length === 0) {
+    divResults.appendChild(createEl('p', "No Barcode Found!"));
+} else {
+    for (let result of results) {
+        const format = result.barcodeFormatString;
+
+        if (format === "DATAMATRIX") {
+            // Check if the barcode format is "datamatrix"
+            const datamatrixResult = result.barcodeText;
+
+            // Assuming you have a form element with the ID "datamatrixResult"
+            const formResultElement = document.getElementById('datamatrixResult');
+            
+            if (formResultElement) {
+                // Update the form element's value or innerHTML with the Datamatrix result
+                formResultElement.value = datamatrixResult; // for input elements
+                // or
+                // formResultElement.innerHTML = datamatrixResult; // for other elements like div, span, etc.
+            }
+        } else {
+            // For other barcode formats, display them in the regular results section
+            iptReadonlyLastResult.value = format + ": " + result.barcodeText; // Show last text result
+
+            const p = document.createElement('p');
+            p.appendChild(createEl('span',  " "));
+            p.appendChild(createEl('span', result.barcodeText, "sp-resultText"));
+            divResults.appendChild(p);
+
+            if (result.barcodeText.indexOf("Attention(exceptionCode") !== -1) {
+                divResults.appendChild(createEl('p', "Error: " + result.exception.message));
+            }
+        }
+    }
+}
+
+
+divResults.appendChild(document.createElement('hr'));
+divResults.scrollTop = divResults.scrollHeight;
+
+
+    } catch (ex) {
+        let errMsg;
+        if (ex.message.includes("network connection error")) {
+            errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+            errMsg = ex.message || ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
+    } finally {
+        pReading.style.display = 'none';
+    }
+}
+
+
+// Modify the captureButton click event
+captureButton.addEventListener('click', () => {
+            readBarcodesFromImage(capturedImage);
+        });
+
+
+
+
+
+
+
+
+// reader for decoding pictures
+let pReader = null;
+iptFile.addEventListener('change', async function() {
+    const file = this.files[0];
+    const imageElement = document.createElement('img');
+            imageElement.src = URL.createObjectURL(file);
+            imageElement.onload = () => {
+                readBarcodesFromImage(imageElement);
+            };
+    pReading.style.display = '';
+    try {
+        const reader = await (pReader = pReader || Dynamsoft.DBR.BarcodeReader.createInstance());
+        reader.ifSaveOriginalImageInACanvas = true;
+        var results = await reader.decode(file);
+
+        // show image
+        divCvsContainer.innerHTML = '';
+        divCvsContainer.appendChild(reader.getOriginalImageInACanvas());
+        // Define a function to count barcodes
+
+
+// Count no of barcodes...
+// Assuming 'results' is an array of barcode objects with a 'type' property
+
+// Calculate the barcode count
+const barcodeCount = results.length;
+
+
+// Update the barcode count in the placeholder
+const barcodeCountInput = document.getElementById('barcodeCount');
+
+
+ barcodeCountInput.value = barcodeCount;
+ 
+       
+    }catch (ex) {
+        let errMsg;
+        if (ex.message.includes("network connection error")) {
+            errMsg = "Failed to connect to Dynamsoft License Server: network connection error. Check your Internet connection or contact Dynamsoft Support (support@dynamsoft.com) to acquire an offline license.";
+        } else {
+            errMsg = ex.message||ex;
+        }
+        console.error(errMsg);
+        alert(errMsg);
+    } finally {
+        pReading.style.display = 'none';
+        this.value = '';
+    }
+});
+
+iptReadonlyLastResult.addEventListener('dblclick', async() => {
+    iptReadonlyLastResult.value = "";
+});
+
+function createEl(type, txt, className) {
+    const el = document.createElement(type);
+    el.textContent = txt;
+    if (className) {
+        el.className = className;
+    }
+    return el;
+}
+ // Get today's date as a string in the format "YYYY-MM-DD"
+ function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Set the default value of the date field to the current date
+const dateField = document.getElementById('dateField');
+dateField.value = getCurrentDate();
+    </script>
+</body>
+</html>

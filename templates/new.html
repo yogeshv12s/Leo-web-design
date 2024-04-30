@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Development Form</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color:black;
+      font-size:12px;
+    }
+    .image-preview {
+        width: auto;
+        height: 200px;
+        padding: 10px; /* Added padding */
+      }
+      .imgpre {
+        height: 200px;
+        border-radius: 5px;
+        background: #a9a9a91c;
+        border: 2px solid grey;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+      .form-control {
+        display: block;
+        width: 100%;
+        height: calc(1.5em + .75rem + 2px);
+        padding: 4px;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+    .container {
+        background: white;
+        border-radius: 12px;
+        margin-top: 10px;
+        padding: 32px;
+    }
+    textarea#description {
+        height: 80px;
+    }
+    textarea.form-control {
+        height: 32px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form action="/submit" method="POST" enctype="multipart/form-data">
+      <!-- First Row -->
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="group">Group:</label>
+            <input type="text" id="group" name="group" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="phase">Phase:</label>
+            <input type="text" id="phase" name="phase" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="order_status">Order Status:</label>
+            <input type="text" id="order_status" name="order_status" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="sample_type">Type of Sample [Physical / 3D]:</label>
+            <select id="sample_type" name="sample_type" class="form-control" required>
+              <option value="Physical">Physical</option>
+              <option value="3D">3D</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="main_fabric">Main Fabric:</label>
+            <input type="text" id="main_fabric" name="main_fabric" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="style_no">Initial Style no.:</label>
+            <input type="text" id="style_no" name="style_no" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" class="form-control Des" rows="4" required></textarea>
+          </div>
+
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="tech_pack">Tech pack:</label>
+            <input type="file" id="tech_pack" name="tech_pack" class="form-control-file" required>
+          </div>
+          <div class="form-group">
+            <label for="tech_pack_date">Tech pack date:</label>
+            <input type="date" id="tech_pack_date" name="tech_pack_date" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="construction_details">Construction details:</label>
+            <textarea id="construction_details" name="construction_details" class="form-control" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="development_spec_link">Development spec link:</label>
+            <input type="text" id="development_spec_link" name="development_spec_link" class="form-control" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Row -->
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="pd_meeting_date">PD meeting date:</label>
+            <input type="date" id="pd_meeting_date" name="pd_meeting_date" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="garment_risk_assessment">Risk Assessment in garment Constructions:</label>
+            <textarea id="garment_risk_assessment" name="garment_risk_assessment" class="form-control" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="artwork">Artwork:</label>
+            <input type="file" id="artwork" name="artwork" class="form-control-file" accept="image/*" onchange="previewImage(event)" required>
+
+          </div>
+        </DIV>
+        <div class="col-md-4">
+
+          <div class="form-group">
+            <label for="printing_risk_assessment">Risk Assessments-in Printing:</label>
+            <textarea id="printing_risk_assessment" name="printing_risk_assessment" class="form-control" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="embroidery_risk_assessment">Risk Assessment in embroidery:</label>
+            <textarea id="embroidery_risk_assessment" name="embroidery_risk_assessment" class="form-control" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="base_pattern">Base pattern:</label>
+            <input type="file" id="base_pattern" name="base_pattern" class="form-control-file" required>
+          </div>
+        </DIV>
+        <div class="col-md-4">
+            <div class="imgpre">
+            <img id="artworkPreview" class="image-preview" src="" alt="Preview">
+            </div>
+        </div>
+      </div>
+      <!-- Submit button -->
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <input type="submit" value="Submit" class="btn btn-primary">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS and dependencies (if needed) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- JavaScript for image preview -->
+  <script>
+    function previewImage(event) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        var artworkPreview = document.getElementById('artworkPreview');
+        artworkPreview.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+</body>
+</html>

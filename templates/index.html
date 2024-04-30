@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Development Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 80%;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .container > div {
+      width: 100%;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="file"],
+    select,
+    textarea,
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    input[type="file"] {
+      cursor: pointer;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+  </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+  <form action="/submit" method="POST" enctype="multipart/form-data">
+    <div class="container">
+      <div>
+        <div class="row">
+            <div class="col">
+        <div class="form-group">
+          <label for="group">Group:</label>
+          <input type="text" id="group" name="group" required>
+        </div></DIV>
+        
+        <div class="form-group">
+          <label for="phase">Phase:</label>
+          <input type="text" id="phase" name="phase" required>
+        </div>
+        <div class="form-group">
+          <label for="order_status">Order Status:</label>
+          <input type="text" id="order_status" name="order_status" required>
+        </div>
+        <div class="form-group">
+          <label for="sample_type">Type of Sample [Physical / 3D]:</label>
+          <select id="sample_type" name="sample_type" required>
+            <option value="Physical">Physical</option>
+            <option value="3D">3D</option>
+          </select>
+        </div>
+    </div></DIV>
+        <div class="form-group">
+          <label for="artwork">Artwork:</label>
+          <input type="text" id="artwork" name="artwork" required>
+        </div>
+        <div class="form-group">
+          <label for="main_fabric">Main Fabric:</label>
+          <input type="text" id="main_fabric" name="main_fabric" required>
+        </div>
+        <div class="form-group">
+          <label for="style_no">Initial Style no.:</label>
+          <input type="text" id="style_no" name="style_no" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea id="description" name="description" rows="4" required></textarea>
+        </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label for="tech_pack">Tech pack:</label>
+          <input type="file" id="tech_pack" name="tech_pack" required>
+        </div>
+        <div class="form-group">
+          <label for="tech_pack_date">Tech pack date:</label>
+          <input type="date" id="tech_pack_date" name="tech_pack_date" required>
+        </div>
+        <div class="form-group">
+          <label for="construction_details">Construction details:</label>
+          <textarea id="construction_details" name="construction_details" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="development_spec_link">Development spec link:</label>
+          <input type="text" id="development_spec_link" name="development_spec_link" required>
+        </div>
+        <div class="form-group">
+          <label for="pd_meeting_date">PD meeting date:</label>
+          <input type="date" id="pd_meeting_date" name="pd_meeting_date" required>
+        </div>
+        <div class="form-group">
+          <label for="garment_risk_assessment">Risk Assessment in garment Constructions:</label>
+          <textarea id="garment_risk_assessment" name="garment_risk_assessment" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="printing_risk_assessment">Risk Assessments-in Printing:</label>
+          <textarea id="printing_risk_assessment" name="printing_risk_assessment" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="embroidery_risk_assessment">Risk Assessment in embroidery:</label>
+          <textarea id="embroidery_risk_assessment" name="embroidery_risk_assessment" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="base_pattern">Base pattern:</label>
+          <input type="file" id="base_pattern" name="base_pattern" required>
+        </div>
+      </div>
+    </div>
+    <input type="submit" value="Submit">
+
+  </form>
+  <!-- Bootstrap JS and dependencies (if needed) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

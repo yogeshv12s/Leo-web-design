@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Background Remover</title>
+  <style>
+    #loading {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/deeplab"></script>
+</head>
+<body>
+  <div id="loading">Loading...</div>
+  <input type="file" accept="image/*" onchange="handleFileSelect(event)">
+  <button onclick="removeBackground()">Remove Background</button>
+  <canvas id="outputCanvas"></canvas>
+
+  <script>
+    let image;
+
+    async function handleFileSelect(event) {
+      image = new Image();
+      const canvas = document.getElementById('outputCanvas');
+      const ctx = canvas.getContext('2d');
+
+      document.getElementById('loading').style.display = 'block';
+
+      image.onload = () => {
+        document.getElementById('loading').style.display = 'none';
+        canvas.width = image.width;
+        canvas.height = image.height;
+        ctx.drawImage(image, 0, 0);
+      };
+
+      image.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    async function removeBackground() {
+      if (!image) {
+        alert('Please select an image first.');
+        return;
+      }
+
+      const model = await tf.loadGraphModel('"C:\Users\Balay\Downloads\archive\model.json"');
+      const canvas = document.getElementById('outputCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const inputTensor = tf.browser.fromPixels(imageData).expandDims();
+
+      const segmentation = await model.executeAsync(inputTensor);
+      const segMap = segmentation.argMax(3).squeeze().arraySync();
+
+      for (let i = 0; i < canvas.width; i++) {
+        for (let j = 0; j < canvas.height; j++) {
+          if (segMap[j][i] === 0) {
+            const pixel = ctx.getImageData(i, j, 1, 1);
+            pixel.data[3] = 0;
+            ctx.putImageData(pixel, i, j);
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>
